@@ -28,8 +28,10 @@ import type {
   CalendarView,
   EventCalendarProps,
 } from "../types/calendar";
+import { DayView } from "./DayView";
 import { EventEditorDialog } from "./EventEditorDialog";
 import { MonthView } from "./MonthView";
+import { WeekView } from "./WeekView";
 
 const toolbarButton = cva("eec-button", {
   variants: {
@@ -352,49 +354,67 @@ export function EventCalendar({
       aria-label="Event calendar"
     >
       {showToolbar ? (
-        <header className="eec-toolbar">
-          <div className="eec-toolbar-group">
-            <button
-              type="button"
-              className={toolbarButton({ emphasis: "ghost" })}
-              onClick={navigation.goToPrevious}
-            >
-              {messages?.previousLabel ?? "Previous"}
-            </button>
+        <header className="eec-toolbar eec-toolbar--new">
+          <div className="eec-toolbar-left">
             <button
               type="button"
               className={toolbarButton({ emphasis: "ghost" })}
               onClick={navigation.goToToday}
+              title="Go to today"
             >
               {messages?.todayLabel ?? "Today"}
             </button>
-            <button
-              type="button"
-              className={toolbarButton({ emphasis: "ghost" })}
-              onClick={navigation.goToNext}
-            >
-              {messages?.nextLabel ?? "Next"}
-            </button>
+
+            <div className="eec-toolbar-nav">
+              <button
+                type="button"
+                className="eec-toolbar-icon-button"
+                onClick={navigation.goToPrevious}
+                aria-label="Previous"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                className="eec-toolbar-icon-button"
+                onClick={navigation.goToNext}
+                aria-label="Next"
+              >
+                ›
+              </button>
+            </div>
           </div>
 
           <div className="eec-toolbar-heading">
             <h2>{getViewLabel(calendarDate, calendarView, locale)}</h2>
-            <p>Use arrow keys to navigate and M/W/D/Y/L to switch views.</p>
           </div>
 
-          <div className="eec-toolbar-group eec-toolbar-group--views">
-            {viewOptions.map((option) => (
-              <button
-                key={option}
-                type="button"
-                className={toolbarButton({
-                  emphasis: option === calendarView ? "selected" : "ghost",
-                })}
-                onClick={() => setCalendarView(option)}
-              >
-                {option}
-              </button>
-            ))}
+          <div className="eec-toolbar-right">
+            <select
+              className="eec-toolbar-select"
+              value={calendarView}
+              onChange={(e) => setCalendarView(e.target.value as CalendarView)}
+              aria-label="Calendar view"
+            >
+              {viewOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option.charAt(0).toUpperCase() + option.slice(1)}
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="date"
+              className="eec-toolbar-date-input"
+              value={format(calendarDate, "yyyy-MM-dd")}
+              onChange={(e) => {
+                const date = new Date(e.target.value);
+                if (!isNaN(date.getTime())) {
+                  setCalendarDate(date);
+                }
+              }}
+              aria-label="Select date"
+            />
 
             {allowEventCreation && showEventDialog ? (
               <button
@@ -487,6 +507,48 @@ export function EventCalendar({
                     })
                 : undefined
             }
+            onEventSelect={
+              allowEventEditing && showEventDialog
+                ? (occurrence) => {
+                    const sourceEvent = findSourceEvent(allEvents, occurrence);
+
+                    if (sourceEvent) {
+                      setDialogState({
+                        open: true,
+                        mode: "edit",
+                        event: sourceEvent,
+                      });
+                    }
+                  }
+                : undefined
+            }
+          />
+        ) : calendarView === "week" ? (
+          <WeekView
+            date={calendarDate}
+            events={visibleEvents}
+            locale={locale}
+            onEventSelect={
+              allowEventEditing && showEventDialog
+                ? (occurrence) => {
+                    const sourceEvent = findSourceEvent(allEvents, occurrence);
+
+                    if (sourceEvent) {
+                      setDialogState({
+                        open: true,
+                        mode: "edit",
+                        event: sourceEvent,
+                      });
+                    }
+                  }
+                : undefined
+            }
+          />
+        ) : calendarView === "day" ? (
+          <DayView
+            date={calendarDate}
+            events={visibleEvents}
+            locale={locale}
             onEventSelect={
               allowEventEditing && showEventDialog
                 ? (occurrence) => {

@@ -7,13 +7,6 @@ const root = document.getElementById("root");
 if (root) {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-      <div className="demo-header">
-        <h1>Eazy Event Calendar</h1>
-        <p>
-          A headless-first React calendar library with optional styled
-          components.
-        </p>
-      </div>
       <CalendarDemo />
     </React.StrictMode>,
   );

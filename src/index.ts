@@ -1,6 +1,8 @@
+export { DayView } from "./components/DayView";
 export { EventCalendar } from "./components/EventCalendar";
 export { EventEditorDialog } from "./components/EventEditorDialog";
 export { MonthView } from "./components/MonthView";
+export { WeekView } from "./components/WeekView";
 export { useCalendarNavigation } from "./hooks/useCalendarNavigation";
 export {
   getMonthGrid,
