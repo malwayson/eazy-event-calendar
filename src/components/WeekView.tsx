@@ -145,7 +145,9 @@ export function WeekView({
                         <div className="eec-week-event-time">
                           {format(event.start, "h:mm a")}
                         </div>
-                        <div className="eec-week-event-title">{event.title}</div>
+                        <div className="eec-week-event-title">
+                          {event.title}
+                        </div>
                         {event.location && (
                           <div className="eec-week-event-location">
                             {event.location}

@@ -91,7 +91,9 @@ export function MonthView({
                     aria-pressed={isSelected}
                   >
                     <span className="eec-day-number">
-                      {renderDayHeader ? renderDayHeader(day) : format(day, "d")}
+                      {renderDayHeader
+                        ? renderDayHeader(day)
+                        : format(day, "d")}
                     </span>
                   </button>
 

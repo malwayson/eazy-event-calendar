@@ -73,7 +73,9 @@ export function DayView({
                   <>
                     <div className="eec-day-event-title">{event.title}</div>
                     {event.location && (
-                      <div className="eec-day-event-location">{event.location}</div>
+                      <div className="eec-day-event-location">
+                        {event.location}
+                      </div>
                     )}
                   </>
                 )}
@@ -132,7 +134,9 @@ export function DayView({
                     </div>
                     <div className="eec-day-event-title">{event.title}</div>
                     {event.location && (
-                      <div className="eec-day-event-location">{event.location}</div>
+                      <div className="eec-day-event-location">
+                        {event.location}
+                      </div>
                     )}
                   </>
                 )}
