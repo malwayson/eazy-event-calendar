@@ -1,0 +1,321 @@
+:root {
+  --eec-background: #ffffff;
+  --eec-background-muted: #f6f7fb;
+  --eec-border: #d8dce8;
+  --eec-text: #162033;
+  --eec-text-muted: #5b667c;
+  --eec-accent: #0f766e;
+  --eec-accent-contrast: #ffffff;
+  --eec-danger: #c2410c;
+  --eec-radius: 18px;
+  --eec-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --eec-background: #0f172a;
+    --eec-background-muted: #162033;
+    --eec-border: #2b3650;
+    --eec-text: #eef2ff;
+    --eec-text-muted: #b3bfd8;
+    --eec-accent: #14b8a6;
+    --eec-accent-contrast: #042f2e;
+    --eec-danger: #fb923c;
+    --eec-shadow: 0 24px 60px rgba(2, 6, 23, 0.45);
+  }
+}
+
+.eec-calendar {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  color: var(--eec-text);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--eec-background) 94%, transparent), var(--eec-background));
+  border: 1px solid var(--eec-border);
+  border-radius: calc(var(--eec-radius) + 6px);
+  box-shadow: var(--eec-shadow);
+}
+
+.eec-calendar--animated {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.eec-calendar:focus-visible {
+  outline: 2px solid var(--eec-accent);
+  outline-offset: 3px;
+}
+
+.eec-toolbar,
+.eec-toolbar-group,
+.eec-toolbar-group--views,
+.eec-filter-group,
+.eec-dialog-actions,
+.eec-form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.eec-toolbar {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.eec-toolbar--secondary {
+  align-items: flex-end;
+}
+
+.eec-toolbar-heading {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.eec-toolbar-heading h2,
+.eec-summary-card-header h3,
+.eec-empty-state h3,
+.eec-dialog-title {
+  margin: 0;
+}
+
+.eec-toolbar-heading p,
+.eec-empty-state p,
+.eec-dialog-description {
+  margin: 0;
+  color: var(--eec-text-muted);
+}
+
+.eec-content,
+.eec-month-view,
+.eec-form,
+.eec-field,
+.eec-search,
+.eec-summary-card,
+.eec-empty-state {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.eec-button,
+.eec-input,
+.eec-event-chip,
+.eec-day-trigger {
+  font: inherit;
+}
+
+.eec-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--eec-accent);
+  color: var(--eec-accent-contrast);
+  cursor: pointer;
+}
+
+.eec-button--ghost {
+  background: var(--eec-background-muted);
+  border-color: var(--eec-border);
+  color: var(--eec-text);
+}
+
+.eec-button--selected {
+  background: color-mix(in srgb, var(--eec-accent) 16%, var(--eec-background));
+  border-color: color-mix(in srgb, var(--eec-accent) 50%, var(--eec-border));
+  color: var(--eec-text);
+}
+
+.eec-button--danger {
+  background: color-mix(in srgb, var(--eec-danger) 84%, black 8%);
+}
+
+.eec-search {
+  min-width: min(100%, 22rem);
+}
+
+.eec-search-label,
+.eec-field-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.eec-input,
+.eec-textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  color: var(--eec-text);
+  background: var(--eec-background);
+  border: 1px solid var(--eec-border);
+  border-radius: 14px;
+}
+
+.eec-input--color {
+  min-height: 3rem;
+  padding: 0.25rem;
+}
+
+.eec-checkbox-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.eec-color-dot {
+  inline-size: 0.75rem;
+  block-size: 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.eec-month-header,
+.eec-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.eec-month-header-cell,
+.eec-day-cell {
+  padding: 0.75rem;
+  border: 1px solid var(--eec-border);
+  border-radius: var(--eec-radius);
+  background: var(--eec-background-muted);
+}
+
+.eec-month-header-cell {
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.eec-day-cell {
+  min-block-size: 10rem;
+  align-content: start;
+}
+
+.eec-day-cell--outside {
+  opacity: 0.55;
+}
+
+.eec-day-cell--today {
+  border-color: color-mix(in srgb, var(--eec-accent) 70%, var(--eec-border));
+}
+
+.eec-day-cell--selected {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--eec-accent) 45%, transparent);
+}
+
+.eec-day-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.2rem;
+  block-size: 2.2rem;
+  border: 0;
+  border-radius: 999px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.eec-day-events,
+.eec-summary-list {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.eec-event-chip {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  color: var(--eec-text);
+  background: color-mix(in srgb, var(--eec-event-accent, var(--eec-accent)) 16%, var(--eec-background));
+  border: 1px solid color-mix(in srgb, var(--eec-event-accent, var(--eec-accent)) 36%, var(--eec-border));
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.eec-event-overflow,
+.eec-field-error {
+  font-size: 0.875rem;
+  color: var(--eec-text-muted);
+}
+
+.eec-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.52);
+}
+
+.eec-dialog-content {
+  position: fixed;
+  inset: 50% auto auto 50%;
+  width: min(92vw, 42rem);
+  max-height: 88vh;
+  overflow: auto;
+  padding: 1.25rem;
+  background: var(--eec-background);
+  border: 1px solid var(--eec-border);
+  border-radius: calc(var(--eec-radius) + 4px);
+  box-shadow: var(--eec-shadow);
+  transform: translate(-50%, -50%);
+}
+
+.eec-year-grid,
+.eec-agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+
+.eec-summary-card,
+.eec-empty-state {
+  padding: 1rem;
+  background: var(--eec-background-muted);
+  border: 1px solid var(--eec-border);
+  border-radius: var(--eec-radius);
+}
+
+.eec-summary-card-header,
+.eec-summary-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+@media (max-width: 900px) {
+  .eec-month-header,
+  .eec-month-grid {
+    gap: 0.5rem;
+  }
+
+  .eec-day-cell {
+    min-block-size: 8rem;
+    padding: 0.6rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .eec-calendar {
+    padding: 0.75rem;
+  }
+
+  .eec-month-header {
+    display: none;
+  }
+
+  .eec-month-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .eec-day-cell {
+    min-block-size: auto;
+  }
+}
