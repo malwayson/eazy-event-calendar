@@ -24,10 +24,12 @@ export type {
   CalendarOccurrence,
   CalendarRecurrenceRule,
   CalendarView,
+  DayViewProps,
   EventCalendarMessages,
   EventCalendarProps,
   EventEditorDialogProps,
   MonthViewProps,
   RecurrenceFrequency,
   UseCalendarNavigationOptions,
+  WeekViewProps,
 } from "./types/calendar";

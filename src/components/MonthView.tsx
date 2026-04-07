@@ -26,6 +26,7 @@ export function MonthView({
   maxVisibleEvents = 3,
   className,
   renderDayHeader,
+  renderDayCell,
   renderEvent,
   onDateSelect,
   onDayCreate,
@@ -79,46 +80,52 @@ export function MonthView({
               )}
               onDoubleClick={() => onDayCreate?.(day)}
             >
-              <button
-                type="button"
-                className="eec-day-trigger"
-                onClick={() => onDateSelect?.(day)}
-                aria-pressed={isSelected}
-              >
-                <span className="eec-day-number">
-                  {renderDayHeader ? renderDayHeader(day) : format(day, "d")}
-                </span>
-              </button>
+              {renderDayCell ? (
+                renderDayCell(day, eventsForDay)
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="eec-day-trigger"
+                    onClick={() => onDateSelect?.(day)}
+                    aria-pressed={isSelected}
+                  >
+                    <span className="eec-day-number">
+                      {renderDayHeader ? renderDayHeader(day) : format(day, "d")}
+                    </span>
+                  </button>
 
-              <ul
-                className="eec-day-events"
-                aria-label={`Events for ${format(day, "PPP", { locale })}`}
-              >
-                {eventsForDay.slice(0, maxVisibleEvents).map((event) => (
-                  <li key={event.occurrenceId}>
-                    <button
-                      type="button"
-                      className="eec-event-chip"
-                      style={
-                        event.color
-                          ? ({
-                              "--eec-event-accent": event.color,
-                            } as React.CSSProperties)
-                          : undefined
-                      }
-                      onClick={() => onEventSelect?.(event)}
-                    >
-                      {renderEvent ? renderEvent(event) : event.title}
-                    </button>
-                  </li>
-                ))}
+                  <ul
+                    className="eec-day-events"
+                    aria-label={`Events for ${format(day, "PPP", { locale })}`}
+                  >
+                    {eventsForDay.slice(0, maxVisibleEvents).map((event) => (
+                      <li key={event.occurrenceId}>
+                        <button
+                          type="button"
+                          className="eec-event-chip"
+                          style={
+                            event.color
+                              ? ({
+                                  "--eec-event-accent": event.color,
+                                } as React.CSSProperties)
+                              : undefined
+                          }
+                          onClick={() => onEventSelect?.(event)}
+                        >
+                          {renderEvent ? renderEvent(event) : event.title}
+                        </button>
+                      </li>
+                    ))}
 
-                {eventsForDay.length > maxVisibleEvents ? (
-                  <li className="eec-event-overflow">
-                    +{eventsForDay.length - maxVisibleEvents} more
-                  </li>
-                ) : null}
-              </ul>
+                    {eventsForDay.length > maxVisibleEvents ? (
+                      <li className="eec-event-overflow">
+                        +{eventsForDay.length - maxVisibleEvents} more
+                      </li>
+                    ) : null}
+                  </ul>
+                </>
+              )}
             </div>
           );
         })}

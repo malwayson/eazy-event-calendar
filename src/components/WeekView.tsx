@@ -1,6 +1,6 @@
 import { addDays, format, getHours, getMinutes, startOfWeek } from "date-fns";
 
-import type { CalendarOccurrence, MonthViewProps } from "../types/calendar";
+import type { CalendarOccurrence, WeekViewProps } from "../types/calendar";
 
 const HOUR_HEIGHT = 60;
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
@@ -52,19 +52,11 @@ export function WeekView({
   date,
   events,
   locale,
+  renderDayHeader,
+  renderEvent,
+  renderTimeSlot,
   onEventSelect,
-}: Omit<
-  MonthViewProps,
-  | "weekStartsOn"
-  | "selectedDate"
-  | "maxVisibleEvents"
-  | "renderDayHeader"
-  | "renderEvent"
-  | "onDateSelect"
-  | "onDayCreate"
-> & {
-  weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-}) {
+}: WeekViewProps) {
   const weekStart = startOfWeek(date, { weekStartsOn: 0 });
   const weekEnd = addDays(weekStart, 6);
   const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
@@ -90,10 +82,16 @@ export function WeekView({
         <div className="eec-week-time-cell" />
         {days.map((day) => (
           <div key={day.toISOString()} className="eec-week-day-header">
-            <div className="eec-week-day-label">
-              {format(day, "EEE").toUpperCase()}
-            </div>
-            <div className="eec-week-date">{format(day, "d")}</div>
+            {renderDayHeader ? (
+              renderDayHeader(day)
+            ) : (
+              <>
+                <div className="eec-week-day-label">
+                  {format(day, "EEE").toUpperCase()}
+                </div>
+                <div className="eec-week-date">{format(day, "d")}</div>
+              </>
+            )}
           </div>
         ))}
       </div>
@@ -140,14 +138,20 @@ export function WeekView({
                     onClick={() => onEventSelect?.(event)}
                     type="button"
                   >
-                    <div className="eec-week-event-time">
-                      {format(event.start, "h:mm a")}
-                    </div>
-                    <div className="eec-week-event-title">{event.title}</div>
-                    {event.location && (
-                      <div className="eec-week-event-location">
-                        {event.location}
-                      </div>
+                    {renderEvent ? (
+                      renderEvent(event)
+                    ) : (
+                      <>
+                        <div className="eec-week-event-time">
+                          {format(event.start, "h:mm a")}
+                        </div>
+                        <div className="eec-week-event-title">{event.title}</div>
+                        {event.location && (
+                          <div className="eec-week-event-location">
+                            {event.location}
+                          </div>
+                        )}
+                      </>
                     )}
                   </button>
                 ))}

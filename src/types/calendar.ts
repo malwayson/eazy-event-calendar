@@ -65,9 +65,31 @@ export interface MonthViewProps {
   maxVisibleEvents?: number;
   className?: string;
   renderDayHeader?: (date: Date) => ReactNode;
+  renderDayCell?: (date: Date, events: CalendarOccurrence[]) => ReactNode;
   renderEvent?: (event: CalendarOccurrence) => ReactNode;
   onDateSelect?: (date: Date) => void;
   onDayCreate?: (date: Date) => void;
+  onEventSelect?: (event: CalendarOccurrence) => void;
+}
+
+export interface WeekViewProps {
+  date: Date;
+  events: CalendarOccurrence[];
+  locale?: Locale;
+  className?: string;
+  renderDayHeader?: (date: Date) => ReactNode;
+  renderEvent?: (event: CalendarOccurrence) => ReactNode;
+  renderTimeSlot?: (hour: number) => ReactNode;
+  onEventSelect?: (event: CalendarOccurrence) => void;
+}
+
+export interface DayViewProps {
+  date: Date;
+  events: CalendarOccurrence[];
+  locale?: Locale;
+  className?: string;
+  renderEvent?: (event: CalendarOccurrence) => ReactNode;
+  renderTimeSlot?: (hour: number) => ReactNode;
   onEventSelect?: (event: CalendarOccurrence) => void;
 }
 
@@ -126,4 +148,15 @@ export interface EventCalendarProps {
   onCreate?: (event: CalendarEvent) => MaybePromise<CalendarEvent | void>;
   onUpdate?: (event: CalendarEvent) => MaybePromise<CalendarEvent | void>;
   onDelete?: (event: CalendarEvent) => MaybePromise<void>;
+  // Custom component renderers
+  renderDayCell?: (date: Date, events: CalendarOccurrence[]) => ReactNode;
+  renderEvent?: (event: CalendarOccurrence) => ReactNode;
+  renderEventDialog?: (props: EventEditorDialogProps) => ReactNode;
+  renderToolbar?: (props: {
+    date: Date;
+    view: CalendarView;
+    onDateChange: (date: Date) => void;
+    onViewChange: (view: CalendarView) => void;
+  }) => ReactNode;
+  renderEmptyState?: () => ReactNode;
 }

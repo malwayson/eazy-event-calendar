@@ -1,7 +1,7 @@
 import { format, getHours, getMinutes } from "date-fns";
 
 import { cn } from "../lib/utils";
-import type { CalendarOccurrence, MonthViewProps } from "../types/calendar";
+import type { CalendarOccurrence, DayViewProps } from "../types/calendar";
 
 const HOUR_HEIGHT = 60;
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
@@ -32,17 +32,10 @@ export function DayView({
   date,
   events,
   locale,
+  renderEvent,
+  renderTimeSlot,
   onEventSelect,
-}: Omit<
-  MonthViewProps,
-  | "weekStartsOn"
-  | "selectedDate"
-  | "maxVisibleEvents"
-  | "renderDayHeader"
-  | "renderEvent"
-  | "onDateSelect"
-  | "onDayCreate"
->) {
+}: DayViewProps) {
   // Separate all-day events from timed events
   const allDayEvents = events.filter((event) => event.allDay);
   const timedEvents = events.filter((event) => !event.allDay);
@@ -74,9 +67,15 @@ export function DayView({
                 onClick={() => onEventSelect?.(event)}
                 type="button"
               >
-                <div className="eec-day-event-title">{event.title}</div>
-                {event.location && (
-                  <div className="eec-day-event-location">{event.location}</div>
+                {renderEvent ? (
+                  renderEvent(event)
+                ) : (
+                  <>
+                    <div className="eec-day-event-title">{event.title}</div>
+                    {event.location && (
+                      <div className="eec-day-event-location">{event.location}</div>
+                    )}
+                  </>
                 )}
               </button>
             ))}
@@ -123,13 +122,19 @@ export function DayView({
                 onClick={() => onEventSelect?.(event)}
                 type="button"
               >
-                <div className="eec-day-event-time">
-                  {format(event.start, "h:mm a")} –{" "}
-                  {format(event.end, "h:mm a")}
-                </div>
-                <div className="eec-day-event-title">{event.title}</div>
-                {event.location && (
-                  <div className="eec-day-event-location">{event.location}</div>
+                {renderEvent ? (
+                  renderEvent(event)
+                ) : (
+                  <>
+                    <div className="eec-day-event-time">
+                      {format(event.start, "h:mm a")} –{" "}
+                      {format(event.end, "h:mm a")}
+                    </div>
+                    <div className="eec-day-event-title">{event.title}</div>
+                    {event.location && (
+                      <div className="eec-day-event-location">{event.location}</div>
+                    )}
+                  </>
                 )}
               </button>
             ))}
